@@ -1,0 +1,81 @@
+/*the first version
+use set
+erase the element that are dread after recording it's corresponding enemy that defeat it to reduce recalculate
+note that it=s.erase(it), erase function return the following iterator of the last element erased, the parameter of the function
+is the iterator(position) of the element to be erased
+for it=s.lower_bound(l), the return value of the lower_bound function is the iterater of the first element that is equal or larger
+than l, the perameter is the value of element
+this problem can also be solved by disjoint set, but remember my aim is to get accepted, so the simpliest way I think by using 
+set is preferenced
+Got AC by the simpliest way firstly, learn knowledge secondary
+*/
+
+
+
+#include<bits/stdc++.h>
+#define endl "\n"
+using namespace std;
+
+int main()
+{
+    ios::sync_with_stdio(false);cin.tie(0);
+
+    int n,m;
+    cin>>n>>m;
+    set<int>s;
+    for(int i=1;i<=n;i++)
+    {
+        s.insert(i);
+    }
+    int b[n+1];
+    auto itbe=s.begin();
+    auto iten=s.end();
+
+    while(m--)
+    {
+        int l,r,x;
+        cin>>l>>r>>x;
+
+        auto it=s.lower_bound(l);
+
+
+
+        for(;it!=s.end();)
+        {
+
+            if(*it>r)
+            {
+
+                break;
+            }
+
+            if(*it!=x)
+            {
+
+                b[*it]=x;
+
+                it=s.erase(it);
+
+
+            }
+            else
+            {
+                it++;
+            }
+
+
+        }
+        b[x]=0;
+
+
+    }
+
+    for(int i=1;i<=n;i++)
+    {
+        if(i!=1)cout<<" ";
+        cout<<b[i];
+    }
+    cout<<endl;
+}
+
+
