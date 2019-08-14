@@ -1,0 +1,39 @@
+    /*enumerate every a[i] to find the min ans 
+    under each a[i], if b[i]<s, calculate the ans
+    note that a[0]=x, b[0]=0, c[0]=0, d[0]=0, since for each type, we can choose at most one spell,
+    which means we can choose zero spell for the first or second type
+    initialize ans to be a large number
+    to avoid integer overflow, convert (n-c[j])*a[i] to long long type
+    upper_bound returns an iterator pointing to the first element in the range [first,last) which compare 
+    greater than val
+    upper_bound(...)-array name =index start from zero*/
+    
+    
+    
+    #include<bits/stdc++.h>
+    using namespace std;
+
+    #define MN 200000
+    int a[MN+5],b[MN+5],c[MN+5],d[MN+5];
+    int main()
+    {
+    	int n,m,k,x,s,i,j;long long ans=4e18;
+
+    	cin>>n>>m>>k;
+
+    	cin>>x>>s;
+    	a[0]=x;
+    	for(i=1;i<=m;++i)cin>>a[i];
+    	for(i=1;i<=m;++i)cin>>b[i];
+    	for(i=1;i<=k;++i)cin>>c[i];
+    	for(i=1;i<=k;++i)cin>>d[i];
+    	for(i=0;i<=m;++i)if(b[i]<=s)
+    	{
+    	   
+    		j=upper_bound(d,d+k+1,s-b[i])-d-1;
+    		
+    		ans=min(ans,1LL*(n-c[j])*a[i]);
+    		
+    	}
+    	printf("%I64d",ans);
+    }
