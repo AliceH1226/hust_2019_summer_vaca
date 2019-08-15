@@ -1,4 +1,14 @@
-//http://codeforces.com/contest/733/problem/D
+/*http://codeforces.com/contest/733/problem/D
+choose at most two
+rearrage x,y,z
+let x max, y mid, z min
+sort them desendingly base on x firstly, y secondly
+if choose two, the two items must be adjacent, the diffenence is 1
+if choose one, diffence is 0, since l=r=0
+to calculate the max of three numbers, use max function twice
+to calculate the min of three numbers, known the smaller one of two, compare this smaller one with the remained one
+if i index from zero, set s[i].num=i+1 to record the num*/
+
 
 #include<bits/stdc++.h>
 using namespace std;
