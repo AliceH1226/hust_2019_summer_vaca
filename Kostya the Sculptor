@@ -1,0 +1,68 @@
+//http://codeforces.com/contest/733/problem/D
+
+#include<bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+const int maxn=1e5+5;
+struct ss
+{
+    ll x,y,z,num;
+}s[maxn];
+bool cmp(ss a, ss b)
+{
+    return a.x!=b.x?a.x>b.x:a.y>b.y;
+}
+
+
+int main()
+{
+    ios::sync_with_stdio(false);cin.tie(0);
+    int n;
+    cin>>n;
+    ll M=0;
+    int tp=0;
+    for(int i=0;i<n;i++)
+    {
+        ll a,b,c;
+        cin>>a>>b>>c;
+        ll sum=a+b+c;
+        s[i].x=max(a,max(b,c));
+        s[i].z=min(a,min(b,c));
+        s[i].y=sum-s[i].x-s[i].z;
+        s[i].num=i+1;
+        if(M<s[i].z)
+        {
+            tp=s[i].num;
+            M=s[i].z;
+
+        }
+    }
+    sort(s,s+n,cmp);
+
+    int l=0;
+    int r=l;
+    for(int i=0;i<n-1;i++)
+    {
+        if(s[i].x==s[i+1].x&&s[i].y==s[i+1].y)
+        {
+            ll m=min(s[i].z+s[i+1].z,s[i].y);
+        
+            if(M<m)
+            {
+                M=m;
+                r=i+1;
+                l=i;
+            }
+        }
+    }
+    if(r-l==1)
+    {
+        cout<<"2"<<endl;
+        cout<<s[l].num<<" "<<s[r].num<<endl;
+    }
+    else
+    {
+        cout<<"1"<<endl;
+        cout<<tp<<endl;
+    }
+}
