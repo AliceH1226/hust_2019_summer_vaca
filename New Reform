@@ -1,0 +1,79 @@
+//https://codeforces.com/contest/659/problem/E
+//without calculating ranks of vertexs is ok
+#include<bits/stdc++.h>
+#define endl "\n"
+using namespace std;
+const int maxn=1e5+5;
+int uf[maxn];
+bool ring[maxn];
+
+int Find(int x)
+{
+
+    if(uf[x]==x)
+    {
+
+        return x;
+    }
+    else
+    {
+
+        uf[x]=Find(uf[x]);//don't return Find(uf[x]) directly without recording uf[x], otherwise tle.
+        //recording uf[x], use the result next time, otherwise it may be the original value x, which takes more time to retrive  
+
+        return uf[x];
+    }
+
+
+}
+void MERGE(int a, int b)
+{
+
+    a=Find(a);
+    b=Find(b);
+
+
+
+    if(a==b)//in the same set
+    {
+
+        ring[b]=true;
+        return;
+
+    }
+    else//not in the same set, merge. father gain the same bool_ring of son
+    {
+
+        uf[a]=b;
+
+        if(ring[a])ring[b]=ring[a];
+
+    }
+
+}
+int main()
+{
+    ios::sync_with_stdio(false);cin.tie(0);
+    int n,m;
+    cin>>n>>m;
+    for(int i=1;i<=n;i++)
+    {
+        uf[i]=i;
+
+    }
+    while(m--)
+    {
+        int a,b;
+        cin>>a>>b;
+        MERGE(a,b);
+    }
+
+    int cnt=0;
+
+    for(int i=1;i<=n;i++)
+    {
+       if(i==uf[i]&&!ring[i])cnt++;//use uf[i] directly rather than Find(i), since the later takes more time and uf[i] has been calculated before
+    }
+    cout<<cnt<<endl;
+
+}
