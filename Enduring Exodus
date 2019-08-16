@@ -1,0 +1,43 @@
+//https://codeforces.com/problemset/problem/645/C
+
+#include<bits/stdc++.h>
+#define endl "\n"
+using namespace std;
+
+int N,K,res=1e9;
+string S;
+
+int next(int i)//find the next empty room
+{
+    do
+    {
+        i++;
+    }while(i<N&&S[i]=='1');//when i is already N-1, satisfy i<N; need to judge whether S[i]=='1' or not, if yes,enter loop, i
+    //increase to N; i does not satisfy i<N, since i is N; exit the loop, return N;
+    //the origin i is n only happens after setting up the slide window, since the problem promise there's always an answer,
+    //which means the empty room is enough. 
+    //the worse case is that the last room is needed(in loop setting up window, i is K-1) when it reach index N-1, and r is equal to N-1
+    return i;
+}
+
+int main()
+{
+    ios::sync_with_stdio(false);cin.tie(0);
+    cin>>N>>K>>S;
+    int l=next(-1),m=l,r=l;
+    for(int i=0;i<K;i++)//set up the sliding window; since there's always a answer, r won't be exceed N-1; the room num index from zero
+    {
+        r=next(r);
+    }
+    while(r<N)//avoid r exceed N-1
+    {
+        while(max(m-l,r-m)>max(next(m)-l,r-next(m)))
+        {
+            m=next(m);
+        }
+        res=min(res,max(m-l,r-m));
+        l=next(l);
+        r=next(r);
+    }
+    cout<<res<<endl;
+}
