@@ -1,0 +1,86 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+const int maxn=2e5+5;
+struct node//define segment tree
+{
+    int s;//value of current node
+    int l,r;//value of left and right child node
+};
+struct node tree[maxn*10];
+int a[maxn];
+int create_tree(int h, int x, int y)//create tree, h is the num of vertex
+{
+    tree[h].l=x;
+    tree[h].r=y;//record the range [l,r]
+    if(x==y)//leaf node
+    {
+        tree[h].s=a[x];//record the value of the leaf node
+        return tree[h].s;//return the value
+    }
+    int mid=(x+y)/2;//calculate the mid
+    int x1=create_tree(h*2,x,mid);//value of left subtree
+    int x2=create_tree(h*2+1,mid+1,r);//value of right subtree
+    tree[h].s=max(x1,x2);//take the larger value from left and right subtree
+    return tree[h].s;//return the value of the current vertex
+}
+int query(int h, int x, int y)//query, x and y are the range endpoints of the tree vertex
+{
+    if(y<tree[h].l||x>tree[h].r)//x1...y1...l..r...x2...y2
+    {
+        return 0;
+    }
+    if(x<=tree[h].l&&tree[h].r<=y)//x...l..r..y
+    {
+        return tree[h].s;
+    }
+
+    int x1=update(h*2,x,y);//value of left subtree
+    int x2=update(h*2+1,x,y);//value of right subtree
+    return max(x1,x2);//take the larger one
+}
+int update(int h, int x)//update
+{
+    if(x<tree[h].l||x>tree[h].r)//x..l..r..x, out of range
+    {
+        return tree[h].s;//return value
+    }
+    if(tree[h].l==tree[h].r)
+    {
+        tree[h].s=a[tree[h].l];
+        return tree[h].s;
+    }
+    int x1=update(h*2,x);
+    int x2=update(h*2+1,x);
+    tree[h].s=max(x1,x2);
+    return tree[h].s;
+}
+
+int main()
+{
+    ios::sync_with_stdio(false);cin.tie(0);
+    int i,j,k,m,n,x,y;
+    char c;
+    cin>>n>>m;
+    for(int i=1;i<=n;i++)
+    {
+        a[i];
+    }
+    create_tree(1,1,n);
+    for(int i=1;i<=m;i++)
+    {
+        cin>>c>>x>>y;
+        if(c=='Q')
+        {
+            cout<<query(1,x,y)<<endl;
+        }
+        else
+        {
+            a[x]=y;
+            update(1,x);
+        }
+
+    }
+
+
+}
