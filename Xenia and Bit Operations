@@ -1,0 +1,48 @@
+//https://codeforces.com/contest/339/problem/D
+
+#include<bits/stdc++.h>
+#define endl "\n"
+using namespace std;
+
+int tree[1<<20];
+int upd(int t, int x, int l, int r, int y, int z)//x index from 0, is the num of tree vertex; z is the target value 
+{
+    if(y<l||r<y)//the target interval is inside the range, return the vertex; [l,r] is the target range, y is the right endpoint of the subrange of the tree
+    {
+        return tree[x];
+    }
+    if(l==r)//right to be the vertex, return z
+    {
+        return tree[x]=z;
+    }
+    int s=(l+r)/2;//middle index
+    upd(t^1,x*2+1,l,s,y,z);//if t is 0, t^1 is 1
+    upd(t^1,x*2+2,s+1,r,y,z);
+    if(!t)//if t is 0, xor operation
+    {
+        tree[x]=tree[x*2+1]^tree[x*2+2];
+    }
+    else//if t is 1 or operation
+    {
+        tree[x]=tree[x*2+1]|tree[x*2+2];
+    }
+    return tree[x];
+}
+int main()
+{
+    ios::sync_with_stdio(false);cin.tie(0);
+    int n,m;
+    cin>>n>>m;
+    for(int i=0;i<(1<<n);i++)
+    {
+        int x;
+        cin>>x;
+        upd(n&1,0,0,(1<<n)-1,i,x);//if n is even, n&1 is 0
+    }
+    for(int i=0;i<m;i++)
+    {
+        int a,b;
+        cin>>a>>b;a--;//vertex index from 0
+        cout<<upd(n&1,0,0,(1<<n)-1,a,b)<<endl;
+    }
+}
