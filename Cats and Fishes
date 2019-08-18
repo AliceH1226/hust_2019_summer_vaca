@@ -1,0 +1,50 @@
+//https://cn.vjudge.net/contest/319950#problem/A
+
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    int n,m,x;
+    int a[1005],b[1005];
+    while(scanf("%d%d%d",&m,&n,&x)!=EOF)
+    {
+        memset(b,0,sizeof(b));
+        for(int i=1;i<=n;i++)
+        {
+            scanf("%d",&a[i]);
+        }
+        sort(a+1,a+1+n);
+        int cnt=m;//the number of the complete fishes remained
+        for(int i=1;i<=x;i++)//i denotes after i minutes
+        {
+            for(int j=1;j<=n;j++)//j is the no. of fishes
+            {
+                if(b[j]==0)
+                {
+                    cnt--;//give the free cat a fish, the number of remaining complete fishes minus one
+                }
+                if(i%a[j]==0)//cat j is free if and only if i is the multiple of a[j]
+                {
+                    b[j]=0;//cat j is free
+                }
+                else
+                {
+                    b[j]=1;//cat j is busy eating a fish
+                }
+                if(cnt==0)break;
+            }
+            if(cnt==0)break;
+        }
+        int ans=0;//the number of fishes is now being eaten
+        for(int i=1;i<=n;i++)//calculate the number of cats that are eating fish when no complete fishes is left
+        {
+            if(b[i]==1)
+            {
+                ans++;
+            }
+        }
+        printf("%d %d\n",cnt,ans);
+
+    }
+}
