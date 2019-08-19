@@ -1,0 +1,46 @@
+//http://acm.hdu.edu.cn/contests/contest_showproblem.php?pid=1010&cid=855
+
+#include<bits/stdc++.h>
+#define rep(i,n) for(int i=0;i<(n);i++)
+using namespace std;
+
+int T;
+int n,d;
+char nm[2000005][12];
+int gts[2000005],fs[2000005];
+int arr[2000005];
+bool cmp(int l, int r)
+{
+    if(gts[l]!=gts[r])
+    {
+        return gts[l]>gts[r];
+    }
+    else
+    {
+        return fs[l]<fs[r];
+    }
+}
+int main()
+{
+    scanf("%d",&T);
+    while(T--)
+    {
+        scanf("%d%d",&n,&d);
+        rep(i,n)
+        {
+            scanf("%s%d%d",nm[i],gts+i,fs+i);
+            arr[i]=i;
+        }
+        int nn=n*d;
+        if(nn%10==5)
+        {
+            int x=nn/10;
+            nth_element(arr,arr+x,arr+n,cmp);
+            printf("%s\n",nm[arr[x]]);
+        }
+        else
+        {
+            printf("Quality is very great\n");
+        }
+    }
+}
