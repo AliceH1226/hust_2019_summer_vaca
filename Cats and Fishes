@@ -22,7 +22,7 @@ int main()
             {
                 if(b[j]==0)
                 {
-                    cnt--;//give the free cat a fish, the number of remaining complete fishes minus one
+                    cnt--;//give the free cat a fish; the number of remaining complete fishes minus one
                 }
                 if(i%a[j]==0)//cat j is free if and only if i is the multiple of a[j]
                 {
