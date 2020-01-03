@@ -1,0 +1,75 @@
+//https://ac.nowcoder.com/acm/contest/890/H
+//模拟题， 水题
+//a[6][6] 50% 数据通过
+
+
+
+
+
+#include<bits/stdc++.h>
+using namespace std;
+
+ int a[10][10];//a[6][6] 50%data pass, warning
+ int node[10];
+ int node2[10];
+
+int main()
+{
+    int t;
+    cin>>t;
+
+   int x,y;
+    while(t--)
+    {
+        for(int i=0;i<5;i++)
+        {
+            cin>>x>>y;
+            a[x][y]+=1;
+            node[x]++;
+            node[y]++;
+            node2[x]++;
+            node2[y]++;
+        }
+        sort(node+1,node+7);
+        if(node[6]==4)cout<<"2,2-dimethylbutane"<<endl;
+        else if(node[6]==3&&node[5]==3)cout<<"2,3-dimethylbutane"<<endl;
+        else if(node[1]==node[2]&&node[2]!=node[3])cout<<"n-hexane"<<endl;
+        else
+        {
+            int i;
+            for(i=1;i<=6;i++)
+            {
+                if(node2[i]==3)
+                {
+                    break;
+                }
+            }
+
+            int j;
+            int cnt=0;
+            for(j=1;j<=6;j++)
+            {
+                if(((a[i][j]==1)||(a[j][i]==1))&&node2[j]==1)
+                {
+
+                   cnt++;
+                }
+            }
+            if(cnt==2)cout<<"2-methylpentane"<<endl;
+            else cout<<"3-methylpentane"<<endl;
+        }
+
+
+
+
+        for(int i=1;i<=6;i++)
+        {
+            for(int j=1;j<=6;j++)
+            {
+                a[i][j]=0;
+            }
+            node[i]=0;
+            node2[i]=0;
+        }
+    }
+}
