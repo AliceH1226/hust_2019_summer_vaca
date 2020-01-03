@@ -1,0 +1,58 @@
+
+//https://ac.nowcoder.com/acm/contest/890/B
+//https://quincy.ink/2019%E7%89%9B%E5%AE%A2%E6%9A%91%E6%9C%9F%E5%A4%9A%E6%A0%A1%E8%AE%AD%E7%BB%83%E8%90%A5-%E8%A1%A5%E9%A2%98%E6%97%A5%E5%BF%97.html
+
+
+
+
+#include<bits/stdc++.h>
+using namespace std;
+
+typedef long long ll;
+const int maxn=505;
+char s1[10]="COFFEE";
+char s2[10]="CHICKEN";
+ll n,k;
+ll f[maxn];
+
+void init()
+{
+    f[1]=6;
+    f[2]=7;
+    int i;
+    for(i=3;i<maxn;i++)
+    {
+        f[i]=f[i-2]+f[i-1];
+        if(f[i]>=(1e12+1))break;
+    }
+    for(int j=i+1;j<maxn;j++)//no ac missing this loop in any contition
+       f[j]=f[i];
+
+}
+
+    char solve(ll n,ll k)
+    {
+        if(k>f[n])return 'A';
+        if(n==1)return s1[k-1];
+        if(n==2)return s2[k-1];
+        if(k>f[n-2])return solve(n-1,k-f[n-2]);
+        else return solve(n-2,k);
+    }
+
+int main()
+{
+    init();
+    int T;
+    scanf("%d",&T);
+    while(T--)
+    {
+        scanf("%lld%lld",&n,&k);
+        for(int i=0;i<10;i++)
+        {
+            char ch=solve(n,k+i);
+            if(ch=='A')break;
+            printf("%c",ch);
+        }
+        printf("\n");
+    }
+}
